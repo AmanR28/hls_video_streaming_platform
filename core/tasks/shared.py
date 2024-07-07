@@ -1,6 +1,7 @@
 from core.models import Video
 import time
 import os
+import glob
 import boto3
 
 import hls.settings as settings
@@ -26,6 +27,13 @@ def create_folder(path):
         os.makedirs(path)
 
 
+def remove_folder(path):
+    files = glob.glob(path + "*")
+    for f in files:
+        os.remove(f)
+    os.rmdir(path)
+
+
 def download_video(video):
     dir = "./media/org/"
     create_folder(dir)
@@ -38,6 +46,10 @@ def download_video(video):
     f.close
 
     return path
+
+
+def delete_video(path):
+    os.remove(path)
 
 
 def get_obj(id):

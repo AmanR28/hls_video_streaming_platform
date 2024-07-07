@@ -33,6 +33,8 @@ def proc_thumbnail(id, path):
     key = f"{id}/thumbnail.jpg"
     shared.upload_to_s3(key, out_path)
 
+    shared.remove_folder(dir)
+
     return "./" + key
 
 
@@ -48,3 +50,5 @@ def proc_quality_template(id):
     thumbnail = proc_thumbnail(id, path)
     video.thumbnail = thumbnail  # type: ignore
     video.save()
+
+    shared.delete_video(path)

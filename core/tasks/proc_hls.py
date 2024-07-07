@@ -8,8 +8,8 @@ from . import shared
 @shared_task
 def proc_hls_360(id):
     video = shared.get_obj(id)
-    # if video.quality < 360:
-    # return
+    if video.quality < 360:
+        return
 
     path = shared.download_video(video)
 
@@ -23,12 +23,15 @@ def proc_hls_360(id):
     video.q360 = id + "/360/index.m3u8"
     video.save()
 
+    shared.delete_video(path)
+    shared.remove_folder(dir)
+
 
 @shared_task
 def proc_hls_720(id):
     video = shared.get_obj(id)
-    # if video.quality < 720:
-    # return
+    if video.quality < 720:
+        return
 
     path = shared.download_video(video)
 
@@ -41,3 +44,6 @@ def proc_hls_720(id):
     shared.upload_folder_to_s3(dir, id + "/720")
     video.q720 = id + "/720/index.m3u8"
     video.save()
+
+    shared.delete_video(path)
+    shared.remove_folder(dir)
