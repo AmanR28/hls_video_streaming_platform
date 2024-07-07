@@ -7,16 +7,16 @@ from django.forms import ValidationError
 
 
 def generate_video_path(instance, filename):
-    now = datetime.datetime.now()
-    timestamp = now.strftime("%Y%m%d%H%M%S")
-    name = f"{filename.split('.')[0][:9]}_{timestamp}.{filename.split('.')[-1]}"
-    return os.path.join(str(instance.id), name)
+    return os.path.join(str(instance.id), "video")
 
 
 class Video(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100)
     video = models.FileField(upload_to=generate_video_path)
+    quality = models.IntegerField(default=0)
+    thumbnail = models.ImageField(upload_to="thumbnails", null=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def clean(self) -> None:
         video = self.video

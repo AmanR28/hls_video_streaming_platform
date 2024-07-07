@@ -9,6 +9,9 @@ psycopg2-binary = "*"
 django-storages = "*"
 python-dotenv = "*"
 boto3 = "*"
+celery = "*"
+redis = "==3.5.3"
+pillow = "*"
 
 [dev-packages]
 
