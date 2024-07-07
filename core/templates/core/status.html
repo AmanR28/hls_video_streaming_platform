@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Status Page</title>
+    <meta http-equiv="refresh" content="3" />
+  </head>
+  <body>
+    <h1>Status Page</h1>
+
+    <table>
+      <tr>
+        <td>ID</td>
+        <td>{{ video.id }}</td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td>{{ video.title }}</td>
+      </tr>
+      {% if video.thumbnail %}
+      <tr>
+        <td>Thumbnail</td>
+        <td>
+          <img
+        src="{{ video.thumbnail.url }}"
+        alt="Video Thumbnail"
+        height="100"
+        width="100"
+          />
+        </td>
+      </tr>
+      {% endif %}
+        <td>360p</td>
+        <td>{{ video.q360 | default:"NA" }}</td>
+      </tr>
+      <tr>
+        <td>720p</td>
+        <td>{{ video.q720 | default:"NA" }}</td>
+      </tr>
+      <tr>
+        <td>Play</td>
+        <td>{{ video.play | default:"NA" }}</td>
+      </tr>
+    </table>
+    {% if video.play %}
+    <a href="/play/{{ video.id }}">Play</a>
+    {% endif %}
+  </body>
+</html>

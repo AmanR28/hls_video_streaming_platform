@@ -35,7 +35,7 @@ def proc_thumbnail(id, path):
 
     shared.remove_folder(dir)
 
-    return "./" + key
+    return key
 
 
 @shared_task
