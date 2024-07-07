@@ -14,16 +14,24 @@ def upload_to_s3(key, path):
     s3_client.upload_file(path, settings.AWS_STORAGE_BUCKET_NAME, key)
 
 
+def upload_folder_to_s3(folder, key):
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            path = os.path.join(root, file)
+            upload_to_s3(f"{key}/{os.path.basename(file)}", path)
+
+
 def create_folder(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
 
 def download_video(video):
-    create_folder("./media/org/")
+    dir = "./media/org/"
+    create_folder(dir)
 
     name = f"{time.time()}_{video.id}"
-    path = f"./media/org/{name}"
+    path = dir + name
 
     f = open(path, "wb")
     f.write(video.video.read())

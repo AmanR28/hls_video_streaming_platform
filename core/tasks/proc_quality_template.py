@@ -20,9 +20,10 @@ def proc_quality(path):
 
 
 def proc_thumbnail(id, path):
-    shared.create_folder("./media/thumbnails/")
+    dir = f"./media/{id}_thumbnail/"
+    shared.create_folder(dir)
 
-    out_path = f"./media/thumbnails/{id}.jpg"
+    out_path = dir + "thumbnail.jpg"
     cmd = f"ffmpeg -i {path} -ss 00:00:00.500 -vframes 1 {out_path}"
     result = subprocess.run(cmd, shell=True)
 
@@ -45,5 +46,5 @@ def proc_quality_template(id):
     video.save()
 
     thumbnail = proc_thumbnail(id, path)
-    video.thumbnail = thumbnail
+    video.thumbnail = thumbnail  # type: ignore
     video.save()
