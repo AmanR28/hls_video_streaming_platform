@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Video Upload</title>
+  </head>
+  <body>
+    <h1>Video Upload</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <input type="submit" value="Upload" />
+    </form>
+
+    <br />
+    <hr />
+    <br />
+
+    <h1>Available Videos</h1>
+    <div style="display: flex; flex-wrap: wrap">
+      {% for video in videos %}
+      <div style="width: 25%; margin-top: 15px; text-align: center">
+        <a href="/play/{{ video.id }}">
+          <img
+            src="{{ video.thumbnail.url }}"
+            alt="{{ video.title }} thumbnail"
+            width="90%"
+            height="200px"
+          />
+          <p style="margin-top: -3px; font-size: 18px">{{ video.title }}</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

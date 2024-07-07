@@ -30,15 +30,15 @@
       </tr>
       {% endif %}
         <td>360p</td>
-        <td>{{ video.q360 | default:"NA" }}</td>
+        <td>{{ video.q360 | default:"Processing" }}</td>
       </tr>
       <tr>
         <td>720p</td>
-        <td>{{ video.q720 | default:"NA" }}</td>
+        <td>{{ video.q720 | default:"Processing" }}</td>
       </tr>
       <tr>
         <td>Play</td>
-        <td>{{ video.play | default:"NA" }}</td>
+        <td>{{ video.play | default:"Processing" }}</td>
       </tr>
     </table>
     {% if video.play %}
