@@ -1,0 +1,76 @@
+version: "3.1"
+services:
+  app:
+    container_name: hls_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - hls:latest
+    command: /bin/sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - ENV=prod
+    volumes:
+      - .:/app
+    network_mode: host
+    depends_on:
+      - postgres
+      - redis
+
+  celery_1:
+    container_name: hls_celery_1
+    image: hls:latest
+    command: celery -A hls worker -l info
+    environment:
+      - ENV=prod
+    volumes:
+      - .:/app
+    network_mode: host
+    depends_on:
+      - app
+
+  celery_2:
+    container_name: hls_celery_2
+    image: hls:latest
+    command: celery -A hls worker -l info
+    environment:
+      - ENV=prod
+    volumes:
+      - .:/app
+    network_mode: host
+    depends_on:
+      - app
+
+  postgres:
+    container_name: hls_postgres
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=hls
+    volumes:
+      - hls_postgres:/var/lib/postgresql/data
+    network_mode: host
+
+  redis:
+    container_name: hls_redis
+    image: redis
+    volumes:
+      - hls_redis:/data
+    network_mode: host
+
+  minio:
+    container_name: hls_minio
+    image: quay.io/minio/minio
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+    command: minio server /var/lib/minio/data --console-address "0.0.0.0:9001"
+    volumes:
+      - hls_minio:/data
+    network_mode: host
+
+volumes:
+  hls_postgres:
+  hls_redis:
+  hls_minio:

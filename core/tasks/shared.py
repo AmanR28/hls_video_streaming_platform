@@ -4,7 +4,7 @@ import os
 import glob
 import boto3
 
-import hls.settings as settings
+from django.conf import settings
 
 s3_client = boto3.client(
     "s3", endpoint_url=settings.AWS_S3_ENDPOINT_URL, verify=settings.AWS_S3_VERIFY

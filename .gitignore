@@ -6,3 +6,6 @@ __pycache__
 media
 
 .env
+.env.dev
+.env.prod
+

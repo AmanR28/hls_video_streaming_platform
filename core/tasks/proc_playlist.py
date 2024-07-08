@@ -1,6 +1,6 @@
 from celery import shared_task
 
-from hls import settings
+from django.conf import settings
 
 from . import shared
 

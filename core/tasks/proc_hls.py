@@ -16,7 +16,7 @@ def proc_hls_360(id):
     dir = f"./media/{id}_360/"
     shared.create_folder(dir)
 
-    cmd = f"ffmpeg -hide_banner -y -i {path} -vf scale=w=640:h=360:force_original_aspect_ratio=decrease -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 6 -hls_playlist_type vod  -b:v 800k -maxrate 856k -bufsize 1200k -b:a 96k {dir}/index.m3u8"
+    cmd = f"ffmpeg -hide_banner -y -i {path} -vf scale=w=640:h=360:force_original_aspect_ratio=decrease -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 15 -hls_playlist_type vod  -b:v 800k -maxrate 856k -bufsize 1200k -b:a 96k {dir}/index.m3u8"
     result = subprocess.run(cmd, shell=True)
 
     shared.upload_folder_to_s3(dir, id + "/360")
@@ -38,7 +38,7 @@ def proc_hls_720(id):
     dir = f"./media/{id}_720/"
     shared.create_folder(dir)
 
-    cmd = f"ffmpeg -hide_banner -y -i {path} -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 6 -hls_playlist_type vod -b:v 2800k -maxrate 2996k -bufsize 4200k -b:a 128k {dir}/index.m3u8"
+    cmd = f"ffmpeg -hide_banner -y -i {path} -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 15 -hls_playlist_type vod -b:v 2800k -maxrate 2996k -bufsize 4200k -b:a 128k {dir}/index.m3u8"
     result = subprocess.run(cmd, shell=True)
 
     shared.upload_folder_to_s3(dir, id + "/720")
